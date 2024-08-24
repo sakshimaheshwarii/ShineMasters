@@ -602,8 +602,8 @@ a.lightbox-gallery::after {
   margin: 12px 0 0;
 }
 .mainmenu-area .logo a {
-  width:55%;
-  height:100px;
+  width:50%;
+  height:60%;
   color: #fff;
   display: inline-block;
   padding: 6px 0;
