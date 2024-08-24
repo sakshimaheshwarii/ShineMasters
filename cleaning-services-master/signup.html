@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup Page</title>
+    <link rel="icon" href="./assets/img/favicon.png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css">
+    <script defer>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('signupForm');
+            
+            form.addEventListener('submit', async (event) => {
+                event.preventDefault();
+                
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+                
+                try {
+                    const response = await fetch('http://localhost:3000/signup', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ email, password })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (response.ok) {
+                        alert('Signup successful!');
+                        window.location.href = 'index.html'; // Redirect to home page or another page
+                    } else {
+                        alert(`Error: ${data.error}`);
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('An error occurred during signup.');
+                }
+            });
+        });
+    </script>
+</head>
+<body class="bg-gray-100">
+    <div class="flex justify-center items-center min-h-screen">
+        <div class="bg-white p-8 max-w-md w-full">
+            <h1 class="text-5xl text-center text-yellow-500 font-bold mb-4">Shine<span class="text-gray-400">Masters</span></h1>
+            <h2 class="text-2xl text-black font-semibold text-center mb-4">Sign up for an account</h2>
+            <p class="text-gray-400 text-center mb-4">Not Registered yet? <a href="signin.html" class="text-yellow-500">Sign in</a></p>
+
+            <form id="signupForm">
+                <div class="mb-4">
+                    <label for="email" class="text-black text-lg font-medium">Email Address</label>
+                    <input type="email" id="email" name="email" required class="w-full border border-gray-400 rounded">
+                </div>
+                <div class="mb-4">
+                    <label for="password" class="text-black text-base font-medium">Password</label>
+                    <input type="password" id="password" name="password" required class="w-full border border-gray-400 rounded">
+                </div>
+                <div class="mb-2 flex items-center">
+                    <input type="checkbox" id="remember" name="remember" class="mr-2">
+                    <label for="remember" class="text-gray-400 text-lg">Remember me</label>
+                </div>
+                <div class="mb-4">
+                    <a href="#" class="text-yellow-500 font-semibold text-lg">Forgot Password?</a>
+                </div>
+                <div class="mt-4 flex justify-center">
+                <a href="index.html" class="bg-yellow-500 text-white text-lg px-6 py-2 rounded-full mr-4">Sign up</a> </div>           
+
+            <div class="mt-4 flex justify-between items-center">
+                <hr class="border-gray-300 w-1/4">
+                <span class="text-gray-600">Or continue with</span>
+                <hr class="border-gray-300 w-1/4">
+            </div>
+
+            <div class="mt-4 flex justify-center">
+                <a href="https://www.x.com" class="bg-yellow-500 text-white text-lg px-6 py-2 rounded-full mr-4">Twitter</a>            
+                <a href="https://www.google.com" class="bg-yellow-500 text-white text-lg px-6 py-2 rounded-full mr-4">Gmail</a> 
+            </div>
+        </div>
+    </div>
+</body>
+</html>

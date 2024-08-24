@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel=icon type="image/png" href="assets/img/favicon.png">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4; /* Light Gray */
+            color: #333;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+        .container {
+            max-width: 800px;
+            margin: 30px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease-in-out;
+        }
+        h1 {
+            text-align: center;
+            color: #ff6f00; /* Orange */
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+            transition: all 0.3s ease-in-out;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555; /* Dark Gray */
+            font-weight: bold;
+            transition: all 0.3s ease-in-out;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd; /* Light Gray */
+            border-radius: 6px;
+            transition: all 0.3s ease-in-out;
+        }
+        .form-group input:focus {
+            border-color: #ff6f00; /* Orange */
+            box-shadow: 0 0 8px rgba(255, 111, 0, 0.3);
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 20px;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            text-align: center;
+            transition: all 0.3s ease-in-out;
+            margin: 10px;
+            text-decoration: none;
+        }
+        .btn.save {
+            background-color: #ff6f00; /* Orange */
+        }
+        .btn.save:hover {
+            background-color: #e65100; /* Darker Orange */
+            transform: scale(1.05);
+        }
+        .btn.edit {
+            background-color: #424242; /* Dark Gray */
+        }
+        .btn.edit:hover {
+            background-color: #212121; /* Black */
+            transform: scale(1.05);
+        }
+        .btn.logout {
+            background-color: #212121; /* Black */
+            width: 100%;
+            margin-top: 10px;
+        }
+        .btn.logout:hover {
+            background-color: #000; /* Slightly darker black */
+            transform: scale(1.05);
+        }
+        .info {
+            background-color: #212121; /* Black */
+            color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 20px;
+            display: none; /* Hidden by default */
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .info.show {
+            display: block;
+            opacity: 1;
+        }
+        .coins {
+            background-color: #e0e0e0; /* Gray */
+            color: #333;
+            border: 1px solid #bbb; /* Light Gray */
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .coins.show {
+            opacity: 1;
+        }
+        .coins span {
+            display: block;
+            font-size: 20px;
+            font-weight: bold;
+            color: #ff6f00; /* Orange */
+        }
+        .info span {
+            display: block;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>User Profile</h1>
+        <div class="info" id="userInfo">
+            <!-- User details will be displayed here -->
+        </div>
+        <div class="coins" id="userCoins">
+            <span>Coins: 0</span>
+            <span>Bookings: 0</span>
+        </div>
+        <form id="profileForm">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" placeholder="Enter your name" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone</label>
+                <input type="text" id="phone" name="phone" placeholder="Enter your phone number" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email address" required>
+            </div>
+            <div class="form-group">
+                <label for="address">Address</label>
+                <input type="text" id="address" name="address" placeholder="Enter your address" required>
+            </div>
+            <button type="button" class="btn edit" onclick="editProfile()">Edit Details</button>
+            <button type="button" class="btn save" onclick="updateProfile()">Save Details</button>
+            <button type="button" class="btn logout" onclick="logout()">Log Out</button>
+        </form>
+    </div>
+    <script>
+        // Initialize user details
+        let userDetails = {
+            phone: "",
+            email: "",
+            name: "",
+            address: "",
+            coins: 0
+        };
+
+        function editProfile() {
+            // Enable form fields for editing
+            document.getElementById('phone').disabled = false;
+            document.getElementById('email').disabled = false;
+            document.getElementById('name').disabled = false;
+            document.getElementById('address').disabled = false;
+        }
+
+        function updateProfile() {
+            // Get form values
+            userDetails.name = document.getElementById('name').value;
+            userDetails.phone = document.getElementById('phone').value;
+            userDetails.email = document.getElementById('email').value;
+            userDetails.address = document.getElementById('address').value;
+
+            // Display user details
+            const userInfo = document.getElementById('userInfo');
+            userInfo.classList.add('show');
+            userInfo.innerHTML = `
+            <span>Name: ${userDetails.name}</span>
+                <span>Phone: ${userDetails.phone}</span>
+                <span>Email: ${userDetails.email}</span>
+                <span>Address: ${userDetails.address}</span>
+            `;
+
+            // Update user coins and bookings
+            const userCoins = document.getElementById('userCoins');
+            userCoins.classList.add('show');
+            userCoins.innerHTML = `
+                <span>Coins: ${userDetails.coins}</span>
+                <span>Bookings: ${Math.floor(userDetails.coins / 5)}</span>
+            `;
+
+            // Disable the form fields after saving
+            document.getElementById('name').disabled = true;
+            document.getElementById('phone').disabled = true;
+            document.getElementById('email').disabled = true;
+            document.getElementById('address').disabled = true;
+
+            // Clear form fields
+            document.getElementById('profileForm').reset();
+        }
+
+        function logout() {
+            // Redirect to bye-bye.html
+            window.location.href = 'bye-bye.html';
+        }
+    </script>
+</body>
+</html>
